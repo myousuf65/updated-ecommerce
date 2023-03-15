@@ -1,0 +1,14 @@
+.scrollingWrapper{
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+}
+
+.card{
+    width: 250px;
+}
+
+.container{
+    padding: 10px;
+}
+
