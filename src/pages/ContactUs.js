@@ -20,7 +20,7 @@ function ContactUs(props) {
         }
 
         console.log(form.current.email.value)
-        emailjs.sendForm('service_nrxtgbc', 'template_z84dbwl', form.current, '2DF4kmSYwGFdx0230')
+        emailjs.sendForm('service_l79rzb5', 'template_9vliyzi', form.current, 'Crn7r2CfeiJJSNDDr')
           .then((result) => {
               console.log(result.text);
               document.getElementById("boo").innerHTML = ""
