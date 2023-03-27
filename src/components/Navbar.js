@@ -51,7 +51,7 @@ function Navbar(props) {
                         <div className={styles.loginIcon}>
                             <img src={incognito} />
                         </div>
-                        <div className='login--label'>
+                        <div className={styles.loginLabel}>
                             Guest
                         </div>
                     </div>
@@ -78,9 +78,6 @@ function Navbar(props) {
                                 console.log(nav)
                                 nav.classList.toggle(styles.active)
                                 search.classList.toggle(styles.active)
-
-
-
 
                             }} />
                     </div>
