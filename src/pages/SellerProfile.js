@@ -50,27 +50,25 @@ function SellerProfile(props) {
     return (
         <div className={styles.container}>
 
-            <div style={{display:"flex", alignItems: "center", gap: "10px"}}>
-                <h1 style={{textAlign:"center", margin:"0px 20px"}}>@{user.name}</h1>
+            <div>
+                <h1>@{user.name}</h1>
                 
-                <button className={styles.redButton} onClick={()=>{
-
-                    setUser(prev => ({
-                        name : "",
-                        email : "",
-                        profilePic : "",
-                    }))
-
-                    window.localStorage.setItem('name', "")
-                    window.localStorage.setItem('email', "")
-                    window.localStorage.setItem('profilePic', "")
-
-                    setLoggedIn(false)
-                    navigate("/")
+                <div style={{marginTop:"10px", display: "flex", gap:"20px"}}>
+                    <button className={styles.redButton} onClick={()=>{
+                        setUser(prev => ({
+                            name : "",
+                            email : "",
+                            profilePic : "",
+                        }))
+                        window.localStorage.setItem('name', "")
+                        window.localStorage.setItem('email', "")
+                        window.localStorage.setItem('profilePic', "")
+                        setLoggedIn(false)
+                        navigate("/")
                     
-                }}>Log Out</button>
-
-                <button className={styles.button} onClick={()=> navigate("/upload-product")} >Add Product</button>
+                    }}>Log Out</button>
+                    <button className={styles.button} onClick={()=> navigate("/upload-product")} >Add Product</button>
+                </div>
             </div>
 
 
