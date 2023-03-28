@@ -58,7 +58,7 @@ function Homepage(props) {
     function handleShirtsFetch(){
 
         const colRef = collection(db, 'Products')
-        const q = query(colRef, where("category", "==", "Shirt"))
+        const q = query(colRef, where("category", "==", "Shirts"))
 
         console.log("handlefetch")
         onSnapshot(q, (snapshot) => {
@@ -72,7 +72,7 @@ function Homepage(props) {
 
     function handleHoodiesFetch(){
         const colRef = collection(db, 'Products')
-        const q = query(colRef, where("category", "==", "Hoodie"))
+        const q = query(colRef, where("category", "==", "Hoodies"))
 
         console.log("handlefetch")
         onSnapshot(q, (snapshot) => {
