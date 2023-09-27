@@ -1,9 +1,11 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import SingleProduct from "../components/product/SingleProduct";
 import styles from "../styles/homepage.module.css";
+import Cookies from "universal-cookie";
 
+const cookie = new Cookies();
 function Homepage(props) {
   const [products, setProducts] = useState({
     jeans: [],
@@ -12,13 +14,12 @@ function Homepage(props) {
   });
 
   const [cart, setCart] = useState(() => {
-    let me = window.localStorage.getItem("cart");
+    let cartData = cookie.get("cart");
+    console.log("🚀 ~ file: Homepage.js:19 ~ :", JSON.stringify(cartData));
 
-    if (me == null) {
+    if (cartData == null || cartData.length === 0) {
       return [];
-    } else if (me.length === 0) {
-      return [];
-    } else return JSON.parse(me);
+    } else return cartData;
   });
 
   function addToCart(id, name, price, image) {
@@ -26,60 +27,55 @@ function Homepage(props) {
   }
 
   useEffect(() => {
-    window.localStorage.setItem("cart", JSON.stringify(cart));
+    cookie.set("cart", cart);
   }, [cart]);
 
   useEffect(() => {
     handleJeansFetch();
-      handleShirtsFetch();
-    handleHoodiesFetch()
+    handleShirtsFetch();
+    handleHoodiesFetch();
   }, []);
 
   function handleJeansFetch() {
     const colRef = collection(db, "Products");
     const q = query(colRef, where("category", "==", "Jeans"));
 
-    console.log("handlefetch");
     onSnapshot(q, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-            setProducts(prevProducts => ({
-                ...prevProducts,
-                jeans: [...prevProducts.jeans, { ...doc.data(), id: doc.id }]
-              }));
-            console.log(products.jeans);
+      snapshot.docs.forEach((doc) => {
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          jeans: [...prevProducts.jeans, { ...doc.data(), id: doc.id }]
+        }));
       });
     });
   }
 
-  function handleShirtsFetch(){
+  function handleShirtsFetch() {
+    const colRef = collection(db, "Products");
+    const q = query(colRef, where("category", "==", "Shirts"));
 
-      const colRef = collection(db, 'Products')
-      const q = query(colRef, where("category", "==", "Shirts"))
-
-      console.log("handlefetch")
-      onSnapshot(q, (snapshot) => {
-          snapshot.docs.forEach(doc => {
-            setProducts(prevProducts => ({
-                ...prevProducts,
-                shirts: [...prevProducts.shirts, { ...doc.data(), id: doc.id }]
-              }));
-          })
-      })
+    onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          shirts: [...prevProducts.shirts, { ...doc.data(), id: doc.id }]
+        }));
+      });
+    });
   }
 
-  function handleHoodiesFetch(){
-      const colRef = collection(db, 'Products')
-      const q = query(colRef, where("category", "==", "Hoodies"))
+  function handleHoodiesFetch() {
+    const colRef = collection(db, "Products");
+    const q = query(colRef, where("category", "==", "Hoodies"));
 
-      console.log("handlefetch")
-      onSnapshot(q, (snapshot) => {
-          snapshot.docs.forEach(doc => {
-            setProducts(prevProducts => ({
-                ...prevProducts,
-                hoodies: [...prevProducts.hoodies, { ...doc.data(), id: doc.id }]
-              }));
-          })
-      })
+    onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        setProducts((prevProducts) => ({
+          ...prevProducts,
+          hoodies: [...prevProducts.hoodies, { ...doc.data(), id: doc.id }]
+        }));
+      });
+    });
   }
 
   return (
@@ -90,6 +86,7 @@ function Homepage(props) {
         <div className={styles.scrollingWrapper}>
           {products.jeans.map((jeans) => (
             <SingleProduct
+              key={jeans.id}
               className={styles.card}
               id={jeans.id}
               getInfo={addToCart}
@@ -106,11 +103,18 @@ function Homepage(props) {
         <h1 style={{ margin: "10px" }}>Shirts</h1>
 
         <div className={styles.scrollingWrapper}>
-          {
-            products.shirts.map(jeans => (
-                <SingleProduct id={jeans.id} className={styles.card} getInfo={addToCart} image={jeans.imageUrl} name={jeans.name} desc={jeans.description} price={jeans.price}/>
-            ))
-          }
+          {products.shirts.map((shirt) => (
+            <SingleProduct
+              key={shirt.id}
+              id={shirt.id}
+              className={styles.card}
+              getInfo={addToCart}
+              image={shirt.imageUrl}
+              name={shirt.name}
+              desc={shirt.description}
+              price={shirt.price}
+            />
+          ))}
         </div>
       </div>
 
@@ -118,11 +122,18 @@ function Homepage(props) {
         <h1 style={{ margin: "10px" }}>Hoodies</h1>
 
         <div className={styles.scrollingWrapper}>
-          {
-            products.hoodies.map(jeans => (
-                <SingleProduct id={jeans.id} className={styles.card} getInfo={addToCart} image={jeans.imageUrl} name={jeans.name} desc={jeans.description} price={jeans.price}/>
-            ))
-          }
+          {products.hoodies.map((hoodie) => (
+            <SingleProduct
+              key={hoodie.id}
+              id={hoodie.id}
+              className={styles.card}
+              getInfo={addToCart}
+              image={hoodie.imageUrl}
+              name={hoodie.name}
+              desc={hoodie.description}
+              price={hoodie.price}
+            />
+          ))}
         </div>
       </div>
     </div>
