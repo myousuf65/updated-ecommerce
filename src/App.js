@@ -43,7 +43,9 @@ function App() {
 
 
   return (
-    <div>
+
+    
+    <div>        
       <AuthContext.Provider value={{user, setUser, loggedIn, setLoggedIn}}>
         <Navbar />
         <Routes>
