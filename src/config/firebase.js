@@ -5,9 +5,6 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 
 import { useNavigate } from "react-router-dom";
 
 
-
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyB-dBXPXo7qrvGwTjiOlQWdGkKkkmftzTA",
   authDomain: "fir-react-app-36daa.firebaseapp.com",

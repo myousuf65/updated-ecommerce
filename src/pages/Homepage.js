@@ -3,32 +3,16 @@ import React, { useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import SingleProduct from "../components/product/SingleProduct";
 import styles from "../styles/homepage.module.css";
-import Cookies from "universal-cookie";
 
-const cookie = new Cookies();
+
+
 function Homepage(props) {
+  
   const [products, setProducts] = useState({
     jeans: [],
     shirts: [],
     hoodies: []
   });
-
-  const [cart, setCart] = useState(() => {
-    let cartData = cookie.get("cart");
-    console.log("🚀 ~ file: Homepage.js:19 ~ :", JSON.stringify(cartData));
-
-    if (cartData == null || cartData.length === 0) {
-      return [];
-    } else return cartData;
-  });
-
-  function addToCart(id, name, price, image) {
-    setCart((oldArray) => [...oldArray, { id, name, price, image }]);
-  }
-
-  useEffect(() => {
-    cookie.set("cart", cart);
-  }, [cart]);
 
   useEffect(() => {
     handleJeansFetch();
@@ -89,7 +73,6 @@ function Homepage(props) {
               key={jeans.id}
               className={styles.card}
               id={jeans.id}
-              getInfo={addToCart}
               image={jeans.imageUrl}
               name={jeans.name}
               desc={jeans.description}
@@ -108,7 +91,6 @@ function Homepage(props) {
               key={shirt.id}
               id={shirt.id}
               className={styles.card}
-              getInfo={addToCart}
               image={shirt.imageUrl}
               name={shirt.name}
               desc={shirt.description}
@@ -127,7 +109,6 @@ function Homepage(props) {
               key={hoodie.id}
               id={hoodie.id}
               className={styles.card}
-              getInfo={addToCart}
               image={hoodie.imageUrl}
               name={hoodie.name}
               desc={hoodie.description}

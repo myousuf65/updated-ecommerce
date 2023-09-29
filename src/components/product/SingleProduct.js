@@ -1,38 +1,48 @@
 import React,{useState} from 'react';
 import styles from "../../styles/single-product.module.css"
+import { useCartStore } from '../../stores/cartStore';
 
-function SingleProduct(props) {
+function SingleProduct({id, name , price, image, desc}) {
 
     const [addedToCart, setAddedToCart] = useState(false)
-    const [notAddedToCart, setNotAddedToCart] = useState(true)
+    const {addToCart, removeFromCart} = useCartStore();
 
-    function addToCart(){
-        setAddedToCart(true)
-        setNotAddedToCart(false)
-        props.getInfo(props.id, props.name, props.price, props.image)
-    }
+    
+    const button = !addedToCart ? (
+        <button
+          className={styles.button}
+          onClick={() => {
+              addToCart({ id, name, price, image });
+              setAddedToCart(prev => !prev)
+          }}
+        >
+          Buy Item
+        </button>
+      ) : (
+            <button onClick={() => {
+                removeFromCart(id);
+                setAddedToCart(prev => !prev);
+            }}
+                className={styles.redButton}>Added To Cart</button>
+      );
 
     return (
         <div className={styles.productContainer}>
 
             <div id={styles.image}>
-                <img src={props.image}/>
+                <img src={image} alt='product'/>
             </div>
 
             <div className={styles.productInfo1}>
-                <h2>{props.name}</h2>
-                <h3>${props.price}</h3>
+                <h2>{name}</h2>
+                <h3>${price}</h3>
             </div>
 
             <div className={styles.productInfo2}>
-                <p>{props.desc}</p>
+                <p>{desc}</p>
             </div>
-
-
-            {notAddedToCart && <button className={styles.button} onClick={addToCart}>Buy Item</button>}
-
-            {addedToCart && <button className={styles.redButton} >Added To Cart</button>}
             
+            {button}
 
         </div>
     );
