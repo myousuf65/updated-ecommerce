@@ -5,7 +5,7 @@ import styles from "../styles/update-products.module.css"
 import {v4 } from "uuid"
 import { updateDoc, doc } from 'firebase/firestore';
 
-function UploadProduct(props) {
+function UpdateProduct(props) {
 
     const [success, setSuccess] = React.useState(false)
     const [unsuccess, setUnsuccess] = React.useState(false)
@@ -110,4 +110,4 @@ function UploadProduct(props) {
     );
 }
 
-export default UploadProduct;
+export default UpdateProduct;
